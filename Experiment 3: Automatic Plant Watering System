@@ -1,0 +1,43 @@
+//variable decalaration
+const int motor = 13; 
+const int redLED = 12; 
+const int blueLED = 11; 
+const int greenLED = 10; 
+//setup
+void setup() { 
+  pinMode(motor, OUTPUT); 
+  pinMode(redLED, OUTPUT); 
+  pinMode(blueLED, OUTPUT); 
+  pinMode(greenLED, OUTPUT); 
+  Serial.begin(9600); 
+  delay(2000); 
+} 
+//loop
+void loop() { 
+  int value = analogRead(A0); 
+  float Moisture = value * 500.0 / 1023.0; 
+  Serial.print("Moisture: "); 
+  Serial.println(Moisture); 
+  
+  digitalWrite(redLED, LOW); 
+  digitalWrite(blueLED, LOW); 
+  digitalWrite(greenLED, LOW); 
+  
+  
+  if (Moisture < 220) { //dry
+    digitalWrite(motor, HIGH); //motor on
+    digitalWrite(redLED, HIGH); //red led on
+    delay(1000); 
+  } 
+  else if (Moisture < 300) { //optimal zone
+    digitalWrite(motor, LOW); //motor on
+    digitalWrite(blueLED, HIGH); // blue led on
+  } 
+  else { //overwatered zone
+    digitalWrite(motor, LOW); //motor off
+    digitalWrite(greenLED, HIGH); //green led on
+  } 
+ 
+  delay(500); 
+} 
+
